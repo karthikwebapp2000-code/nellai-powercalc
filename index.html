@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>TNEB Calc | Electricity Bill Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand-mark">ϟ</span><span>TNEB Calc</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="active" href="#dashboard">Dashboard</a><a href="#slabs">Slabs</a><a href="#history">History</a><a href="#help">Help</a>
+      </nav>
+      <div class="top-actions"><button class="icon-button" aria-label="Search">⌕</button><button class="icon-button" aria-label="Notifications">♧</button><span class="avatar">U</span></div>
+    </header>
+
+    <section class="hero" id="dashboard">
+      <div><p class="eyebrow">TAMIL NADU ELECTRICITY ESTIMATE</p><h1>Electricity Bill Calculator</h1><p class="subhead">Estimate your bill quickly with a clear slab-by-slab breakdown.</p></div>
+      <button class="theme-toggle" id="themeToggle">☾ <span>Dark mode</span></button>
+    </section>
+
+    <section class="dashboard-grid">
+      <div class="left-column">
+        <section class="card connection-card"><h2>Connection Type</h2><div class="segmented"><button class="segment selected" data-category="domestic">Domestic</button><button class="segment" data-category="commercial">Commercial</button></div></section>
+        <section class="card input-card"><h2>Calculator Input</h2><label for="units">Units Consumed (kWh)</label><input id="units" type="number" min="0" max="10000" value="250" /><p class="hint">Enter total units for this billing cycle</p><div class="free-note"><span>✧</span><div><strong>Domestic 0–100 Units: FREE</strong><small>No charges for first 100 units</small></div></div><button class="calculate" id="calculate">▣ &nbsp; Calculate Bill</button><p class="error" id="error"></p></section>
+      </div>
+      <section class="card breakdown-card"><div class="card-title-row"><h2>Bill Breakdown</h2><span class="cycle">Bi-monthly estimate</span></div><div class="table-wrap"><table><thead><tr><th>SLAB</th><th>UNITS</th><th>RATE (₹/UNIT)</th><th>AMOUNT (₹)</th></tr></thead><tbody id="breakdown"></tbody></table></div><div class="totals"><div><span>Energy Charge Subtotal</span><strong id="energy">₹0.00</strong></div><div><span>Fixed Charge</span><strong id="fixed">₹0.00</strong></div><div><span>Electricity Duty (7%)</span><strong id="duty">₹0.00</strong></div><div class="grand"><span>Total Bill Amount</span><strong id="total">₹0.00</strong></div></div><button class="download" id="download">⇩ &nbsp; Download Estimate</button></section>
+    </section>
+
+    <section class="stats"><div class="stat"><span class="stat-icon">ⓘ</span><div><small>Monthly Units</small><strong id="statUnits">250 units</strong></div></div><div class="stat"><span class="stat-icon">✧</span><div><small>Estimated Bill</small><strong id="statTotal">₹1,177.50</strong></div></div><div class="stat"><span class="stat-icon">♢</span><div><small>Savings (Free 100)</small><strong class="green" id="statSavings">₹350.00</strong></div></div></section>
+    <footer>*TNEB Domestic Tariff • Rates updated Sep 2024 • 0–100 units free as per policy</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
