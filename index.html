@@ -12,27 +12,263 @@
     <header class="topbar">
       <a class="brand" href="#"><span class="brand-mark">ϟ</span><span>TNEB Calc</span></a>
       <nav class="nav-links" aria-label="Main navigation">
-        <a class="active" href="#dashboard">Dashboard</a><a href="#slabs">Slabs</a><a href="#history">History</a><a href="#help">Help</a>
+        <a class="nav-link active" data-tab="dashboard" href="#dashboard">Dashboard</a>
+        <a class="nav-link" data-tab="slabs" href="#slabs">Slabs</a>
+        <a class="nav-link" data-tab="history" href="#history">History</a>
       </nav>
-      <div class="top-actions"><button class="icon-button" aria-label="Search">⌕</button><button class="icon-button" aria-label="Notifications">♧</button><span class="avatar">U</span></div>
+      <div class="top-actions">
+        <button class="icon-button" id="clearHistory" aria-label="Clear History" title="Clear all history">🗑</button>
+        <button class="icon-button" id="exportData" aria-label="Export Data" title="Export as CSV">⬇</button>
+        <span class="avatar" id="dateToday"></span>
+      </div>
     </header>
 
-    <section class="hero" id="dashboard">
-      <div><p class="eyebrow">TAMIL NADU ELECTRICITY ESTIMATE</p><h1>Electricity Bill Calculator</h1><p class="subhead">Estimate your bill quickly with a clear slab-by-slab breakdown.</p></div>
-      <button class="theme-toggle" id="themeToggle">☾ <span>Dark mode</span></button>
+    <!-- DASHBOARD TAB -->
+    <section class="tab-content active" data-tab="dashboard">
+      <section class="hero" id="dashboard">
+        <div>
+          <p class="eyebrow">TAMIL NADU ELECTRICITY ESTIMATE</p>
+          <h1>Electricity Bill Calculator</h1>
+          <p class="subhead">Estimate your bill quickly with a clear slab-by-slab breakdown.</p>
+        </div>
+        <button class="theme-toggle" id="themeToggle">☾ <span>Dark mode</span></button>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="left-column">
+          <!-- Customer Details -->
+          <section class="card customer-card">
+            <h2>Customer Details</h2>
+            <div class="form-group">
+              <label for="customerName">Customer Name</label>
+              <input id="customerName" type="text" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="meterNumber">Meter / Service Number</label>
+              <input id="meterNumber" type="text" placeholder="Meter No." />
+            </div>
+            <div class="form-group">
+              <label for="billDate">Billing Period</label>
+              <input id="billDate" type="text" placeholder="Sep 2026" />
+            </div>
+          </section>
+
+          <!-- Connection Type -->
+          <section class="card connection-card">
+            <h2>Connection Type</h2>
+            <div class="segmented">
+              <button class="segment selected" data-category="domestic">Domestic</button>
+              <button class="segment" data-category="commercial">Commercial</button>
+            </div>
+          </section>
+
+          <!-- Calculator Input -->
+          <section class="card input-card">
+            <h2>Calculator Input</h2>
+            <label for="units">Units Consumed (kWh)</label>
+            <input id="units" type="number" min="0" max="10000" value="250" />
+            <p class="hint">Enter total units for this billing cycle</p>
+            <div class="free-note">
+              <span>✨</span>
+              <div>
+                <strong>Domestic 0–100 Units: FREE</strong>
+                <small>No charges for first 100 units</small>
+              </div>
+            </div>
+            <button class="calculate" id="calculate">⌬ &nbsp; Calculate Bill</button>
+            <p class="error" id="error"></p>
+          </section>
+        </div>
+
+        <!-- Bill Breakdown -->
+        <section class="card breakdown-card">
+          <div class="card-title-row">
+            <h2>Bill Breakdown</h2>
+            <span class="cycle" id="cycleBadge">Bi-monthly estimate</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>SLAB</th>
+                  <th>UNITS</th>
+                  <th>RATE (₹/UNIT)</th>
+                  <th>AMOUNT (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="breakdown"></tbody>
+            </table>
+          </div>
+          <div class="totals">
+            <div>
+              <span>Energy Charge Subtotal</span>
+              <strong id="energy">₹0.00</strong>
+            </div>
+            <div>
+              <span>Fixed Charge</span>
+              <strong id="fixed">₹0.00</strong>
+            </div>
+            <div>
+              <span>Electricity Duty (7%)</span>
+              <strong id="duty">₹0.00</strong>
+            </div>
+            <div class="grand">
+              <span>Total Bill Amount</span>
+              <strong id="total">₹0.00</strong>
+            </div>
+          </div>
+          <button class="download" id="download">⬇ &nbsp; Download PDF Bill</button>
+          <button class="save-history" id="saveBill">💾 &nbsp; Save to History</button>
+        </section>
+      </section>
+
+      <section class="stats">
+        <div class="stat">
+          <span class="stat-icon">📊</span>
+          <div>
+            <small>Monthly Units</small>
+            <strong id="statUnits">250 units</strong>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon">₹</span>
+          <div>
+            <small>Estimated Bill</small>
+            <strong id="statTotal">₹1,177.50</strong>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon">🎁</span>
+          <div>
+            <small>Savings (Free 100)</small>
+            <strong class="green" id="statSavings">₹350.00</strong>
+          </div>
+        </div>
+      </section>
     </section>
 
-    <section class="dashboard-grid">
-      <div class="left-column">
-        <section class="card connection-card"><h2>Connection Type</h2><div class="segmented"><button class="segment selected" data-category="domestic">Domestic</button><button class="segment" data-category="commercial">Commercial</button></div></section>
-        <section class="card input-card"><h2>Calculator Input</h2><label for="units">Units Consumed (kWh)</label><input id="units" type="number" min="0" max="10000" value="250" /><p class="hint">Enter total units for this billing cycle</p><div class="free-note"><span>✧</span><div><strong>Domestic 0–100 Units: FREE</strong><small>No charges for first 100 units</small></div></div><button class="calculate" id="calculate">▣ &nbsp; Calculate Bill</button><p class="error" id="error"></p></section>
-      </div>
-      <section class="card breakdown-card"><div class="card-title-row"><h2>Bill Breakdown</h2><span class="cycle">Bi-monthly estimate</span></div><div class="table-wrap"><table><thead><tr><th>SLAB</th><th>UNITS</th><th>RATE (₹/UNIT)</th><th>AMOUNT (₹)</th></tr></thead><tbody id="breakdown"></tbody></table></div><div class="totals"><div><span>Energy Charge Subtotal</span><strong id="energy">₹0.00</strong></div><div><span>Fixed Charge</span><strong id="fixed">₹0.00</strong></div><div><span>Electricity Duty (7%)</span><strong id="duty">₹0.00</strong></div><div class="grand"><span>Total Bill Amount</span><strong id="total">₹0.00</strong></div></div><button class="download" id="download">⇩ &nbsp; Download Estimate</button></section>
+    <!-- SLABS TAB -->
+    <section class="tab-content" data-tab="slabs">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">OFFICIAL TNEB TARIFF SLABS</p>
+          <h1>Electricity Tariff Breakdown</h1>
+          <p class="subhead">Current rates as per Tamil Nadu Government Policy</p>
+        </div>
+      </section>
+
+      <section class="slabs-grid">
+        <section class="card slab-card">
+          <h3>🏠 Domestic Connection</h3>
+          <div class="slab-info">
+            <div class="slab-row">
+              <span class="slab-range">0–100 kWh</span>
+              <span class="slab-rate">FREE</span>
+              <span class="slab-note">Government subsidy</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">101–200 kWh</span>
+              <span class="slab-rate">₹3.50/unit</span>
+              <span class="slab-note">Stepped tariff</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">201+ kWh</span>
+              <span class="slab-rate">₹6.50/unit</span>
+              <span class="slab-note">Higher usage slab</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">Fixed Charge</span>
+              <span class="slab-rate">₹0/month</span>
+              <span class="slab-note">No base charge</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card slab-card">
+          <h3>🏢 Commercial Connection</h3>
+          <div class="slab-info">
+            <div class="slab-row">
+              <span class="slab-range">0–100 kWh</span>
+              <span class="slab-rate">₹5.00/unit</span>
+              <span class="slab-note">Base commercial rate</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">101–200 kWh</span>
+              <span class="slab-rate">₹8.50/unit</span>
+              <span class="slab-note">Mid-range rate</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">201+ kWh</span>
+              <span class="slab-rate">₹9.00/unit</span>
+              <span class="slab-note">Premium usage rate</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">Fixed Charge</span>
+              <span class="slab-rate">₹50/month</span>
+              <span class="slab-note">Base fixed charges</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card slab-card">
+          <h3>📋 Additional Charges</h3>
+          <div class="slab-info">
+            <div class="slab-row">
+              <span class="slab-range">Electricity Duty</span>
+              <span class="slab-rate">7%</span>
+              <span class="slab-note">On total energy charge</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">Meter Rent</span>
+              <span class="slab-rate">Included</span>
+              <span class="slab-note">In fixed charge</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">Billing Cycle</span>
+              <span class="slab-rate">Bi-monthly</span>
+              <span class="slab-note">Every 2 months</span>
+            </div>
+            <div class="slab-row">
+              <span class="slab-range">Payment Method</span>
+              <span class="slab-rate">Online/Offline</span>
+              <span class="slab-note">Multiple options</span>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="info-box">
+        <h3>💡 How to Reduce Your Bill</h3>
+        <ul>
+          <li>Use electricity efficiently to stay in the free 0–100 unit slab (domestic)</li>
+          <li>Shift high-load appliances to off-peak hours if available</li>
+          <li>Regular maintenance of electrical appliances improves efficiency</li>
+          <li>Switch to LED bulbs and energy-efficient devices</li>
+          <li>Avoid peak hour consumption (typically 6–9 PM)</li>
+        </ul>
+      </section>
     </section>
 
-    <section class="stats"><div class="stat"><span class="stat-icon">ⓘ</span><div><small>Monthly Units</small><strong id="statUnits">250 units</strong></div></div><div class="stat"><span class="stat-icon">✧</span><div><small>Estimated Bill</small><strong id="statTotal">₹1,177.50</strong></div></div><div class="stat"><span class="stat-icon">♢</span><div><small>Savings (Free 100)</small><strong class="green" id="statSavings">₹350.00</strong></div></div></section>
-    <footer>*TNEB Domestic Tariff • Rates updated Sep 2024 • 0–100 units free as per policy</footer>
+    <!-- HISTORY TAB -->
+    <section class="tab-content" data-tab="history">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">YOUR BILL ESTIMATES</p>
+          <h1>Calculation History</h1>
+          <p class="subhead">View all your previous bills and comparisons</p>
+        </div>
+      </section>
+
+      <section class="history-container">
+        <div id="historyList" class="history-list">
+          <p class="empty-state">No history yet. Calculate your first bill!</p>
+        </div>
+      </section>
+    </section>
+
+    <footer>*TNEB Domestic Tariff • Rates updated <span id="footerDate">Sep 2024</span> • 0–100 units free as per policy</footer>
   </main>
+
   <script src="app.js"></script>
 </body>
 </html>
