@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0b1020" />
-  <title>TNEB Calc | Electricity Bill Calculator</title>
+  <title>Nellai PowerCalc | Tamil Nadu Electricity Bill Calculator</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#"><span class="brand-mark">ϟ</span><span>TNEB Calc</span></a>
+      <a class="brand" href="#"><span class="brand-mark">ϟ</span><span>Nellai PowerCalc</span></a>
       <nav class="nav-links" aria-label="Main navigation">
         <a class="nav-link active" data-tab="dashboard" href="#dashboard">Dashboard</a>
         <a class="nav-link" data-tab="slabs" href="#slabs">Slabs</a>
@@ -23,10 +23,9 @@
       </div>
     </header>
 
-    <!-- DASHBOARD TAB -->
     <section class="tab-content active" data-tab="dashboard">
       <section class="hero" id="dashboard">
-        <div>
+        <div class="hero-copy">
           <p class="eyebrow">TAMIL NADU ELECTRICITY ESTIMATE</p>
           <h1>Electricity Bill Calculator</h1>
           <p class="subhead">Estimate your bill quickly with a clear slab-by-slab breakdown.</p>
@@ -36,9 +35,11 @@
 
       <section class="dashboard-grid">
         <div class="left-column">
-          <!-- Customer Details -->
           <section class="card customer-card">
-            <h2>Customer Details</h2>
+            <div class="card-header">
+              <h2>Customer Details</h2>
+              <span class="chip">Profile</span>
+            </div>
             <div class="form-group">
               <label for="customerName">Customer Name</label>
               <input id="customerName" type="text" placeholder="Your name" />
@@ -53,18 +54,22 @@
             </div>
           </section>
 
-          <!-- Connection Type -->
           <section class="card connection-card">
-            <h2>Connection Type</h2>
+            <div class="card-header">
+              <h2>Connection Type</h2>
+              <span class="chip status-online">Live</span>
+            </div>
             <div class="segmented">
               <button class="segment selected" data-category="domestic">Domestic</button>
               <button class="segment" data-category="commercial">Commercial</button>
             </div>
           </section>
 
-          <!-- Calculator Input -->
           <section class="card input-card">
-            <h2>Calculator Input</h2>
+            <div class="card-header">
+              <h2>Calculator Input</h2>
+              <span class="chip accent">kWh</span>
+            </div>
             <label for="units">Units Consumed (kWh)</label>
             <input id="units" type="number" min="0" max="10000" value="250" />
             <p class="hint">Enter total units for this billing cycle</p>
@@ -80,7 +85,6 @@
           </section>
         </div>
 
-        <!-- Bill Breakdown -->
         <section class="card breakdown-card">
           <div class="card-title-row">
             <h2>Bill Breakdown</h2>
@@ -117,8 +121,10 @@
               <strong id="total">₹0.00</strong>
             </div>
           </div>
-          <button class="download" id="download">⬇ &nbsp; Download PDF Bill</button>
-          <button class="save-history" id="saveBill">💾 &nbsp; Save to History</button>
+          <div class="action-row">
+            <button class="download" id="download">⬇ &nbsp; Download PDF Bill</button>
+            <button class="save-history" id="saveBill">💾 &nbsp; Save to History</button>
+          </div>
         </section>
       </section>
 
@@ -147,10 +153,9 @@
       </section>
     </section>
 
-    <!-- SLABS TAB -->
     <section class="tab-content" data-tab="slabs">
       <section class="hero">
-        <div>
+        <div class="hero-copy">
           <p class="eyebrow">OFFICIAL TNEB TARIFF SLABS</p>
           <h1>Electricity Tariff Breakdown</h1>
           <p class="subhead">Current rates as per Tamil Nadu Government Policy</p>
@@ -249,10 +254,9 @@
       </section>
     </section>
 
-    <!-- HISTORY TAB -->
     <section class="tab-content" data-tab="history">
       <section class="hero">
-        <div>
+        <div class="hero-copy">
           <p class="eyebrow">YOUR BILL ESTIMATES</p>
           <h1>Calculation History</h1>
           <p class="subhead">View all your previous bills and comparisons</p>
